@@ -24,6 +24,12 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
         setImage(row, column, Image("file:src/main/resources/mine/${checker}.png"))
     }
 
+    fun dispawn(row: Int, column: Int) {
+        this[row, column] = null
+        setImage(row, column, null)
+    }
+
+
     fun move(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int) {
         val deleted = this[toRow, toColumn]
         this[toRow, toColumn] = this[fromRow, fromColumn]

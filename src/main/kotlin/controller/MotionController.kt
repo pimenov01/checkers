@@ -64,15 +64,40 @@ class MotionController {
 
         if (desk[fromRow, fromColumn] is Checker && desk[fromRow, fromColumn]!!.color == turn) {
             if (fromRow to fromColumn in eatAndMove()) {
-                desk.move(fromRow, fromColumn, toRow, toColumn)
-                while (desk[toRow, toColumn]?.canEat(toRow, toColumn)?.first!!) {
-                    for ((tempRow, tempColumn) in desk[toRow, toColumn]?.canEat(toRow, toColumn)?.second!!) {
-                        desk.move(toRow, toColumn, tempRow, tempColumn)
+                if (!desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.first!!) {
+                    if (toRow to toColumn in desk.getPossibleMoves(fromRow, fromColumn)) {
+                        desk.move(fromRow, fromColumn, toRow, toColumn)
+                        turn = turn.enemyColor()
+                    }
+                } else {
+                    if (toRow to toColumn in desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.second!!) {
+                        desk.move(fromRow, fromColumn, toRow, toColumn)
+                        desk.dispawn((fromRow + toRow) / 2, (fromColumn + toColumn) / 2)
+                        if (!desk[toRow, toColumn]?.canEat(toRow, toColumn)?.first!!) {
+                            turn = turn.enemyColor()
+                        }
                     }
                 }
-                turn = turn.enemyColor()
             }
         }
+
+        /*if (desk[fromRow, fromColumn] is Checker && desk[fromRow, fromColumn]!!.color == turn) { // temp work version
+            if (!desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.first!!) {
+                if (toRow to toColumn in canMove())
+                    desk.move(fromRow, fromColumn, toRow, toColumn)
+            } else {
+
+                if (fromRow to fromColumn in eatAndMove()) {
+                    desk.move(fromRow, fromColumn, toRow, toColumn)
+                    while (desk[toRow, toColumn]?.canEat(toRow, toColumn)?.first!!) {
+                        for ((tempRow, tempColumn) in desk[toRow, toColumn]?.canEat(toRow, toColumn)?.second!!) {
+                            desk.move(toRow, toColumn, tempRow, tempColumn)
+                        }
+                    }
+                    turn = turn.enemyColor()
+                }
+            }
+        }*/
 
         /*if (desk[fromRow, fromColumn] is Checker && desk[fromRow, fromColumn]!!.color == turn) {
             println("1")
