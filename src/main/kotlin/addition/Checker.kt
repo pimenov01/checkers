@@ -3,8 +3,8 @@ package addition
 
 open class Checker(val color: Color) {
     private var board: Board? = null
-    private fun getBoard() = board
-    private fun isOpposite(other: Checker?) = (other?.color ?: false) != this.color
+    fun getBoard() = board
+    fun isOpposite(other: Checker?) = (other?.color ?: false) != this.color
     fun setBoard(board: Board) {
         this.board = board
     }
@@ -33,7 +33,7 @@ open class Checker(val color: Color) {
     /**
      * Needed to be fixed.
      */
-    fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
+    open fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
         println("coords $x, $y")
         //println("canEat? ${canEat(x, y)}")
         //if ()

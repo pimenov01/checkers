@@ -2,11 +2,12 @@ package main.app
 
 import addition.Board
 import addition.Checker
+import addition.Queen
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.shape.Rectangle
 import javafx.scene.paint.Color
-
+import javafx.scene.shape.Circle
 
 
 class DeskGUI(private val cells: List<List<Rectangle>>,
@@ -31,11 +32,21 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
 
 
     fun move(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int) {
-        val deleted = this[toRow, toColumn]
+        //val deleted = this[toRow, toColumn]
         this[toRow, toColumn] = this[fromRow, fromColumn]
         this[fromRow, fromColumn] = null
         setImage(toRow, toColumn, getImage(fromRow, fromColumn))
         setImage(fromRow, fromColumn, null)
+
+        if (this[toRow, toColumn]!!.color == addition.Color.WHITE && toRow == 0) {
+            dispawn(toRow, toColumn)
+            spawn(Queen(addition.Color.WHITE), toRow, toColumn)
+        } else {
+           if (this[toRow, toColumn]!!.color == addition.Color.BLACK && toRow == 7) {
+               dispawn(toRow, toColumn)
+               spawn(Queen(addition.Color.BLACK), toRow, toColumn)
+           }
+        }
 
     }
 

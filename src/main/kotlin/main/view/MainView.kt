@@ -2,6 +2,7 @@ package main.view
 
 
 import addition.Checker
+import addition.Queen
 import controller.MotionController
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.EventHandler
@@ -110,7 +111,7 @@ class MainView : View("checkers") {
 
     private fun spawner() {
         with(desk) {
-            for (column in 1..7 step 2) {
+            /*for (column in 1..7 step 2) {
                 spawn(Checker(addition.Color.BLACK), 0, column)
                 spawn(Checker(addition.Color.BLACK), 2, column)
                 spawn(Checker(addition.Color.WHITE), 6, column)
@@ -120,7 +121,7 @@ class MainView : View("checkers") {
                 spawn(Checker(addition.Color.BLACK), 1, column)
                 spawn(Checker(addition.Color.WHITE), 5, column)
                 spawn(Checker(addition.Color.WHITE), 7, column)
-            }
+            }*/
 
             /**
              * Used for tests
@@ -128,6 +129,10 @@ class MainView : View("checkers") {
             //spawn(Checker(addition.Color.WHITE), 0, 0)
             /*spawn(Checker(addition.Color.WHITE),5, 2)
             spawn(Checker(addition.Color.BLACK),2, 4)*/
+            spawn(Queen(addition.Color.WHITE), 2, 5)
+            spawn(Checker(addition.Color.WHITE), 1, 4)
+            spawn(Queen(addition.Color.BLACK), 4, 3)
+            spawn(Checker(addition.Color.BLACK), 3, 2)
 
         }
 

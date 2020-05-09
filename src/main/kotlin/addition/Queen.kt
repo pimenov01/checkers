@@ -2,11 +2,10 @@ package addition
 
 class Queen (color: Color): Checker(color) {
 
-    /*override fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
+    override fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
-        //for ((directionX, directionY) in listOf(1 to 1, 1 to 0, 1 to -1, 0 to -1, -1 to -1, -1 to 0, -1 to 1, 0 to 1)) {
-        for ((directionX, directionY) in listOf(-1 to 1, -1 to -1, -1 to 1, 1 to -1)) {
+        for ((directionX, directionY) in listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)) {
             var newX = x + directionX
             var newY = y + directionY
             while (newX in 0 until 8 && newY in 0 until 8 && isOpposite((board[newX, newY]))) {
@@ -19,6 +18,8 @@ class Queen (color: Color): Checker(color) {
             }
         }
         return result
-    }*/
+    }
+
+    override fun toString(): String = if (this.color == Color.WHITE) "white_queen" else "black_queen"
 
 }
