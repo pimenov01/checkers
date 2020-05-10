@@ -34,7 +34,7 @@ open class Checker(val color: Color) {
      * Needed to be fixed.
      */
     open fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
-        println("coords $x, $y")
+        //println("coords $x, $y")
         //println("canEat? ${canEat(x, y)}")
         //if ()
         //if (board?.get(x, y) == null) return mutableListOf()
@@ -55,12 +55,15 @@ open class Checker(val color: Color) {
         return result
     }
 
-    fun canEat(x: Int, y: Int): Pair<Boolean, List<Pair<Int, Int>>> { // List<Pair<Int, Int>> // Pair<Boolean, List<Pair<Int, Int>>> //Triple<Boolean, List<Pair<Int, Int>>, Boolean>
+    open fun canEat(x: Int, y: Int): Triple<Boolean, List<Pair<Int, Int>>, List<Pair<Int, Int>>> { // List<Pair<Int, Int>> // Pair<Boolean, List<Pair<Int, Int>>> //Triple<Boolean, List<Pair<Int, Int>>, Boolean>
         val result = mutableListOf<Pair<Int, Int>>()
+        val enemyCords = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
-        val enemy = if(this.color == Color.WHITE) Checker(Color.BLACK) else Checker(Color.WHITE)
+        val enemyChecker = if(this.color == Color.WHITE) Checker(Color.BLACK) else Checker(Color.WHITE)
+        val enemyQueen = if(this.color == Color.WHITE) Queen(Color.BLACK) else Queen(Color.WHITE)
         //println("enemy $enemy")
-        val list = if (this.color == Color.WHITE) listOf(-1 to 1, -1 to -1) else listOf(1 to -1, 1 to 1)
+        //val list = if (this.color == Color.WHITE) listOf(-1 to 1, -1 to -1) else listOf(1 to -1, 1 to 1)
+        val list = listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)
 
         for ((newX, newY) in list) {
             /*println("${x + 2 * newX}")
@@ -70,12 +73,18 @@ open class Checker(val color: Color) {
                 /*println("enemy is near? ${board[x + newX, y + newY] == enemy}")
                 println("empty behind enemy? ${board[x + 2 * newX, y + 2 * newY] == null}")*/
 
-                if (board[x + newX, y + newY] == enemy && board[x + 2 * newX, y + 2 * newY] == null) result.add(x + 2 * newX to y + 2 * newY)//return true
+                //if (board[x + newX, y + newY] == enemyChecker || board[x + newX, y + newY] == enemyQueen
+                if (board[x + newX, y + newY] is Checker && this.color != board[x + newX, y + newY]?.color
+                        && board[x + 2 * newX, y + 2 * newY] == null) {
+                    result.add(x + 2 * newX to y + 2 * newY)
+                    enemyCords.add(x + newX to y + newY)
+                }//return true
             }
         }
         /*println("if can it, then tp to cords $result")
         println("123465")*/
-        return if (result.size != 0) true to result else false to result
+        return if (result.size != 0) Triple(true, result, enemyCords) else Triple(false, result, enemyCords)
+            //true to result else false to result
     }
 
      /*private fun isCheck(): Boolean {

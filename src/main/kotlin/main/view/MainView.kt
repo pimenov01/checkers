@@ -129,10 +129,20 @@ class MainView : View("checkers") {
             //spawn(Checker(addition.Color.WHITE), 0, 0)
             /*spawn(Checker(addition.Color.WHITE),5, 2)
             spawn(Checker(addition.Color.BLACK),2, 4)*/
-            spawn(Queen(addition.Color.WHITE), 2, 5)
+            /*spawn(Queen(addition.Color.WHITE), 2, 5)
             spawn(Checker(addition.Color.WHITE), 1, 4)
             spawn(Queen(addition.Color.BLACK), 4, 3)
             spawn(Checker(addition.Color.BLACK), 3, 2)
+            spawn(Checker(addition.Color.BLACK), 6, 1)*/
+            /*spawn(Queen(addition.Color.BLACK), 2, 5)
+            spawn(Checker(addition.Color.WHITE), 1, 4)*/
+            spawn(Queen(addition.Color.WHITE), 3, 4)
+            spawn(Checker(addition.Color.BLACK), 6, 1)
+            spawn(Checker(addition.Color.BLACK), 1, 6)
+
+            /*spawn(Queen(addition.Color.WHITE), 7, 2)
+            spawn(Checker(addition.Color.WHITE), 7 - 1, 2 - 1)*/
+
 
         }
 

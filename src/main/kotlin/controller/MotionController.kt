@@ -3,6 +3,7 @@ package controller
 import addition.Board
 import addition.Checker
 import addition.Color
+import addition.Queen
 import main.app.DeskGUI
 
 class MotionController {
@@ -62,6 +63,12 @@ class MotionController {
             return
         }
 
+        println("can move ${canMove()}")
+        println("can eat ${itCanEat()}")
+        println("eat & move ${eatAndMove()}")
+        println("enemy at ${desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.third}")
+        println("fun enemyAt ${enemyAt(fromRow, fromColumn)}")
+
         if (desk[fromRow, fromColumn] is Checker && desk[fromRow, fromColumn]!!.color == turn) {
             if (fromRow to fromColumn in eatAndMove()) {
                 if (!desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.first!!) {
@@ -73,6 +80,13 @@ class MotionController {
                     if (toRow to toColumn in desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.second!!) {
                         desk.move(fromRow, fromColumn, toRow, toColumn)
                         desk.dispawn((fromRow + toRow) / 2, (fromColumn + toColumn) / 2)
+                        println("fromR $fromRow")
+                        println("fromC $fromColumn")
+                        println("toR $toRow")
+                        println("toC $toColumn")
+                        //desk.dispawn1(fromRow, fromColumn, toRow, toColumn, enemyAt(fromRow, fromColumn))
+                        //desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.third?.let { desk.dispawn1(fromRow, fromColumn, toRow, toColumn, it) }
+                        println("Posle")
                         if (!desk[toRow, toColumn]?.canEat(toRow, toColumn)?.first!!) {
                             turn = turn.enemyColor()
                         }
@@ -135,11 +149,23 @@ class MotionController {
         return false
     }*/
 
+    private fun enemyAt(row: Int, column: Int): List<Pair<Int, Int>> {
+        println("1")
+        //println("after 1 ${desk[row, column]!!.canEat(row, column).third}")
+        println("after 1 ${desk[row, column]?.canEat(row, column)?.third}")
+        println("2")
+        return desk[row, column]?.canEat(row, column)?.third!!
+    }
+
+
+
+
     private fun canMove(): List<Pair<Int, Int>> {
         val result = mutableListOf<Pair<Int, Int>>()
         for (i in 0 until 8) {
             for (j in 0 until 8) {
-                if (desk[i, j] is Checker && desk[i, j]!!.color == turn && desk[i, j]?.getPossibleMoves(i, j)?.isNotEmpty()!!)
+                if (desk[i, j] is Checker //|| desk[i, j] is Queen
+                        && desk[i, j]!!.color == turn && desk[i, j]?.getPossibleMoves(i, j)?.isNotEmpty()!!)
                     result.add(i to j)
             }
         }
@@ -150,7 +176,8 @@ class MotionController {
         val result = mutableListOf<Pair<Int, Int>>()
         for (i in 0 until 8) {
             for (j in 0 until 8) {
-                if (desk[i, j] is Checker && desk[i, j]!!.color == turn && desk[i, j]?.canEat(i, j)?.first!!)
+                if (desk[i, j] is Checker //|| desk[i, j] is Queen
+                        && desk[i, j]!!.color == turn && desk[i, j]?.canEat(i, j)?.first!!)
                     result.add(i to j)
             }
         }

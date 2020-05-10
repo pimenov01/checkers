@@ -30,6 +30,38 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
         setImage(row, column, null)
     }
 
+    fun dispawn1(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int, enemyCords: List<Pair<Int, Int>>) {
+
+        println("before")
+
+        var tempRow = fromRow
+        var tempColumn = fromColumn
+
+        val vector = when {
+            fromRow > toRow && fromColumn > toColumn -> -1 to -1
+            fromRow > toRow && fromColumn < toColumn -> 1 to -1
+            fromRow < toRow && fromColumn < toColumn -> 1 to 1
+            //fromRow < toRow && fromColumn > toColumn -> -1 to 1
+            else -> -1 to 1
+        }
+        println("vector $vector")
+        println("enemyCords at dispawn1 $enemyCords")
+
+        while (tempRow != toRow && tempColumn != toColumn) {
+            /*if (tempRow == toRow) vector = 0 to vector.second
+            if (tempColumn == toColumn) vector = vector.first to 0*/
+            tempRow += vector.first
+            tempColumn += vector.second
+            if (tempRow in 0 until 8 && tempColumn in 0 until 8) {
+                if (enemyCords.contains(tempRow to tempColumn)) {
+                    this[tempRow, tempColumn] = null
+                    setImage(tempRow, tempColumn, null)
+                }
+            }
+        }
+
+    }
+
 
     fun move(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int) {
         //val deleted = this[toRow, toColumn]
@@ -51,7 +83,7 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
     }
 
     fun setCellColor(row: Int, column: Int, color: Color) {
-        cells[row][column].fill = color
+        if (row in 0 until 8 && column in 0 until 8) cells[row][column].fill = color
     }
 
 

@@ -3,14 +3,17 @@ package addition
 class Queen (color: Color): Checker(color) {
 
     override fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
+        val enemyColor = if (this.color == Color.WHITE) Color.BLACK else Color.WHITE
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
+        println(canEat(x, y).second)
+        if (canEat(x, y).first) return canEat(x, y).second
         for ((directionX, directionY) in listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)) {
             var newX = x + directionX
             var newY = y + directionY
             while (newX in 0 until 8 && newY in 0 until 8 && isOpposite((board[newX, newY]))) {
                 result.add(Pair(newX, newY))
-                if ((board[newX, newY]) is Checker) {
+                if ((board[newX, newY]) is Checker && board[newX, newY]?.color != enemyColor) {
                     break
                 }
                 newX += directionX
@@ -18,6 +21,40 @@ class Queen (color: Color): Checker(color) {
             }
         }
         return result
+    }
+
+    override fun canEat(x: Int, y: Int): Triple<Boolean, List<Pair<Int, Int>>, List<Pair<Int, Int>>> { //Pair<Boolean, List<Pair<Int, Int>>>
+        var enemyCounter = 0
+        val enemyCords = mutableListOf<Pair<Int, Int>>()
+        val result = mutableListOf<Pair<Int, Int>>()
+        val board = this.getBoard()!!
+        val list = listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)
+        println("im handling ${board[x, y]}")
+        for ((directionX, directionY) in list) {
+            var newX = x + directionX
+            var newY = y + directionY
+            while (newX in 0 until 8 && newY in 0 until 8 && isOpposite(board[newX, newY])) {
+                if (newX + directionX in 0 until 8 && newY + directionY in 0 until 8) {
+                    if (board[newX, newY] is Checker && board[newX, newY]?.color != this.color
+                            && board[newX + directionX, newX + directionY] is Checker && board[newX + directionX, newX + directionY]?.color != this.color) break
+                    if (board[newX, newY] is Checker && board[newX, newY]?.color != this.color
+                            && board[newX + directionX, newY + directionY] == null) {
+                        enemyCounter++
+                        if (enemyCounter > 1) break /*else result.add(newX + directionX to newY + directionY)*/
+                        enemyCords.add(newX to newY)
+
+                    }
+                }
+                if (enemyCounter == 1) result.add(newX + directionX to newY + directionY)
+                newX += directionX
+                newY += directionY
+            }
+            enemyCounter = 0
+        }
+        println("Queen canEat() enemyCords $enemyCords")
+        return if (result.size != 0) Triple(true, result, enemyCords) else Triple(false, result, enemyCords)
+            //true to result else false to result
+
     }
 
     override fun toString(): String = if (this.color == Color.WHITE) "white_queen" else "black_queen"
