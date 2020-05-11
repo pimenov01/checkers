@@ -11,37 +11,10 @@ open class Board {
         if (value is Checker) value.setBoard(this)
     }
 
-    /*open fun clear() {
-        for (i in 0 until 8) {
-            for (j in 0 until 8) {
-                info[i][j] = null
-            }
-        }
-    }*/
 
 
     fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
         val result = mutableListOf<Pair<Int, Int>>()
-        /*for (move in (info[x][y] ?: return result).getPossibleMoves(x, y).toMutableList()) {
-            val piece = this[x, y]
-            println("piece is $piece")
-            println("pieces possible moves ${info[x][y]!!.getPossibleMoves(x, y).toMutableList()}")
-            val otherPiece = this[move.first, move.second]
-            this[move.first, move.second] = piece
-            this[x, y] = null
-            result.add(move)
-            this[x, y] = piece
-            this[move.first, move.second] = otherPiece
-        }*/
-        val piece = this[x, y]
-        /*if (piece != null) {
-            if (piece.canEat(x, y).first) {
-
-
-            }
-        }*/
-        /*println("piece is $piece")
-        println("pieces possible moves ${info[x][y]!!.getPossibleMoves(x, y).toMutableList()}")*/
         return (info[x][y] ?: return result).getPossibleMoves(x, y).toMutableList()
     }
 

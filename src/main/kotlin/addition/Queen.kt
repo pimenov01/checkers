@@ -6,7 +6,6 @@ class Queen (color: Color): Checker(color) {
         val enemyColor = if (this.color == Color.WHITE) Color.BLACK else Color.WHITE
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
-        //println(canEat(x, y).second)
         if (canEat(x, y).first) return canEat(x, y).second
         for ((directionX, directionY) in listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)) {
             var newX = x + directionX
@@ -23,13 +22,12 @@ class Queen (color: Color): Checker(color) {
         return result
     }
 
-    override fun canEat(x: Int, y: Int): Triple<Boolean, List<Pair<Int, Int>>, List<Pair<Int, Int>>> { //Pair<Boolean, List<Pair<Int, Int>>>
+    override fun canEat(x: Int, y: Int): Triple<Boolean, List<Pair<Int, Int>>, List<Pair<Int, Int>>> {
         var enemyCounter = 0
         val enemyCords = mutableListOf<Pair<Int, Int>>()
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
         val list = listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)
-        //println("im handling ${board[x, y]}")
         for ((directionX, directionY) in list) {
             var newX = x + directionX
             var newY = y + directionY
@@ -40,7 +38,7 @@ class Queen (color: Color): Checker(color) {
                     if (board[newX, newY] is Checker && board[newX, newY]?.color != this.color
                             && board[newX + directionX, newY + directionY] == null) {
                         enemyCounter++
-                        if (enemyCounter > 1) break /*else result.add(newX + directionX to newY + directionY)*/
+                        if (enemyCounter > 1) break
                         enemyCords.add(newX to newY)
 
                     }
@@ -55,9 +53,8 @@ class Queen (color: Color): Checker(color) {
             }
             enemyCounter = 0
         }
-        //println("Queen canEat() enemyCords $enemyCords")
         return if (result.size != 0) Triple(true, result, enemyCords) else Triple(false, result, enemyCords)
-            //true to result else false to result
+
 
     }
 

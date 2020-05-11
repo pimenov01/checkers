@@ -7,7 +7,6 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.shape.Rectangle
 import javafx.scene.paint.Color
-import javafx.scene.shape.Circle
 
 
 class DeskGUI(private val cells: List<List<Rectangle>>,
@@ -32,7 +31,6 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
 
     fun dispawn(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int, enemyCords: List<Pair<Int, Int>>) {
 
-        //println("before")
 
         var tempRow = fromRow
         var tempColumn = fromColumn
@@ -41,15 +39,10 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
             fromRow > toRow && fromColumn > toColumn -> -1 to -1
             fromRow > toRow && fromColumn < toColumn -> -1 to 1
             fromRow < toRow && fromColumn < toColumn -> 1 to 1
-            //fromRow < toRow && fromColumn > toColumn -> -1 to 1
             else -> 1 to -1
         }
-        /*println("vector $vector")
-        println("enemyCords at dispawn1 $enemyCords")*/
 
         while (tempRow != toRow && tempColumn != toColumn) {
-            /*if (tempRow == toRow) vector = 0 to vector.second
-            if (tempColumn == toColumn) vector = vector.first to 0*/
             tempRow += vector.first
             tempColumn += vector.second
             if (tempRow in 0 until 8 && tempColumn in 0 until 8) {
@@ -64,7 +57,6 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
 
 
     fun move(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int) {
-        //val deleted = this[toRow, toColumn]
         this[toRow, toColumn] = this[fromRow, fromColumn]
         this[fromRow, fromColumn] = null
         setImage(toRow, toColumn, getImage(fromRow, fromColumn))

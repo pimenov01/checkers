@@ -81,7 +81,6 @@ class MainView : View("checkers") {
                                     onDragDetected = EventHandler { event ->
                                         if (hint.value && desk[row, column] is Checker && row to column in controller.eatAndMove()) {
                                             allowHints(row, column, true)
-                                        //hintsEnabled(row, column)
                                         }
                                         val db: Dragboard = startDragAndDrop(TransferMode.MOVE)
                                         val content = ClipboardContent()
@@ -111,7 +110,6 @@ class MainView : View("checkers") {
 
                                     onDragDone = EventHandler { event ->
                                         allowHints(row, column, false)
-                                        //hintsDisabled(row, column)
                                         val db = event.dragboard
                                         desk.setImage(row, column, db.image)
                                         if (event.transferMode == TransferMode.MOVE) {
@@ -148,30 +146,7 @@ class MainView : View("checkers") {
                 spawn(Checker(addition.Color.WHITE), 5, column)
                 spawn(Checker(addition.Color.WHITE), 7, column)
             }
-
-            /**
-             * Used for tests
-             */
-            //spawn(Checker(addition.Color.WHITE), 0, 0)
-            /*spawn(Checker(addition.Color.WHITE),5, 2)
-            spawn(Checker(addition.Color.BLACK),2, 4)*/
-            /*spawn(Queen(addition.Color.WHITE), 2, 5)
-            spawn(Checker(addition.Color.WHITE), 1, 4)
-            spawn(Queen(addition.Color.BLACK), 4, 3)
-            spawn(Checker(addition.Color.BLACK), 3, 2)
-            spawn(Checker(addition.Color.BLACK), 6, 1)*/
-            /*spawn(Queen(addition.Color.BLACK), 2, 5)
-            spawn(Checker(addition.Color.WHITE), 1, 4)*/
-            /*spawn(Queen(addition.Color.WHITE), 3, 4)
-            spawn(Checker(addition.Color.BLACK), 6, 1)
-            spawn(Checker(addition.Color.BLACK), 1, 6)
-            spawn(Checker(addition.Color.BLACK), 0, 7)*/
-
-            /*spawn(Queen(addition.Color.WHITE), 7, 2)
-            spawn(Checker(addition.Color.WHITE), 7 - 1, 2 - 1)*/
-
         }
-
     }
 
     private fun moveQueue() {
@@ -194,10 +169,6 @@ class MainView : View("checkers") {
         moveQueue()
     }
 
-    /**
-     * Both below needed to be fixed
-     */
-
     private fun allowHints(row: Int, column: Int, permission: Boolean) {
        val color =  if (permission) Color.web("a9f083") else Color.web("7d3b0a")
         for ((x, y) in desk.getPossibleMoves(row, column)) {
@@ -205,20 +176,6 @@ class MainView : View("checkers") {
         }
 
     }
-
-    /*private fun hintsEnabled(row: Int, column: Int) {
-        val defaultColor = Color.web("a9f083")
-            for ((x, y) in desk.getPossibleMoves(row, column)) {
-                desk.setCellColor(x, y, defaultColor)
-            }
-    }
-
-    private fun hintsDisabled(row: Int, column: Int) {
-        val defaultColor = Color.web("7d3b0a")
-        for ((x, y) in desk.getPossibleMoves(row, column)) {
-            desk.setCellColor(x, y, defaultColor)
-        }
-    }*/
 }
 
 
