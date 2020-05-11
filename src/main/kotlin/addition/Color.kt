@@ -5,4 +5,7 @@ enum class Color {
     BLACK;
 
     fun enemyColor() = if (this == WHITE) BLACK else WHITE
+
+    override fun toString(): String = name.toLowerCase().capitalize()
+
 }

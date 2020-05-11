@@ -49,6 +49,7 @@ open class Checker(val color: Color) {
             val newX = x + directionX
             val newY = y + directionY
             if (newX in 0 until 8 && newY in 0 until 8 && isOpposite(board[newX, newY])) {
+                if (board[newX, newY] !is Checker)
                 result.add(Pair(newX, newY))
             }
         }

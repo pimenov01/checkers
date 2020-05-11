@@ -2,7 +2,6 @@ package main.view
 
 
 import addition.Checker
-import addition.Queen
 import controller.MotionController
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.event.EventHandler
@@ -15,6 +14,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import tornadofx.*
 import javafx.scene.shape.Rectangle
+import javafx.scene.text.Font
 import main.app.DeskGUI
 
 class MainView : View("checkers") {
@@ -22,14 +22,38 @@ class MainView : View("checkers") {
     private lateinit var desk: DeskGUI
     private var lastDrop: Pair<Int?, Int?> = null to null
     private var controller = MotionController()
-    private var hint = SimpleBooleanProperty(true)
+    private var hint = SimpleBooleanProperty(false)
+    private var turn = text("")
 
     init {
         primaryStage.icons.add(Image("file:src/main/resources/checkers_icon.png"))
-        setWindowMinSize(800, 790)
+        setWindowMinSize(800, 840)
         //primaryStage.isResizable = false
 
         with(root) {
+            top {
+                vbox {
+                    menubar {
+                        menu("Hints") {
+                            item("Enable hints") {
+                                checkbox("", hint)
+                            }
+                        }
+                        menu("Restart") {
+                            item("Restart Game").action {restartGame()} //restartGame() }
+                        }
+                    }
+                    borderpane {
+                        center {
+                            turn = text("White to move") {
+                                fill = Color.BLACK
+                                font = Font(20.0)
+                            }
+                        }
+                    }
+                }
+
+            }
             center {
                 gridpane {
                     val setUpSells = List(8) { MutableList(8) { Rectangle() } }
@@ -40,10 +64,8 @@ class MainView : View("checkers") {
                                 stackpane {
                                     setUpSells[row][column] = rectangle {
                                         fill = if ((row + column) % 2 == 0)
-                                            //Color.rgb(240, 217, 181)
                                          Color.web("e6ba99")
                                          else
-                                            //Color.rgb(181, 136, 99)
                                         Color.web("7d3b0a")
 
                                         widthProperty().bind(root.widthProperty().divide(8))
@@ -57,7 +79,10 @@ class MainView : View("checkers") {
                                     }
 
                                     onDragDetected = EventHandler { event ->
-                                        hintsEnabled(row, column)
+                                        if (hint.value && desk[row, column] is Checker && row to column in controller.eatAndMove()) {
+                                            allowHints(row, column, true)
+                                        //hintsEnabled(row, column)
+                                        }
                                         val db: Dragboard = startDragAndDrop(TransferMode.MOVE)
                                         val content = ClipboardContent()
                                         content.putImage(desk.getImage(row, column))
@@ -85,14 +110,15 @@ class MainView : View("checkers") {
                                     }
 
                                     onDragDone = EventHandler { event ->
-                                        hintsDisabled(row, column)
+                                        allowHints(row, column, false)
+                                        //hintsDisabled(row, column)
                                         val db = event.dragboard
                                         desk.setImage(row, column, db.image)
                                         if (event.transferMode == TransferMode.MOVE) {
                                             controller.handle(row, column, lastDrop.first, lastDrop.second)
                                         }
                                         lastDrop = null to null
-                                        //updateStatus()
+                                        moveQueue()
                                         event.consume()
                                     }
                                 }
@@ -111,7 +137,7 @@ class MainView : View("checkers") {
 
     private fun spawner() {
         with(desk) {
-            /*for (column in 1..7 step 2) {
+            for (column in 1..7 step 2) {
                 spawn(Checker(addition.Color.BLACK), 0, column)
                 spawn(Checker(addition.Color.BLACK), 2, column)
                 spawn(Checker(addition.Color.WHITE), 6, column)
@@ -121,7 +147,7 @@ class MainView : View("checkers") {
                 spawn(Checker(addition.Color.BLACK), 1, column)
                 spawn(Checker(addition.Color.WHITE), 5, column)
                 spawn(Checker(addition.Color.WHITE), 7, column)
-            }*/
+            }
 
             /**
              * Used for tests
@@ -136,22 +162,51 @@ class MainView : View("checkers") {
             spawn(Checker(addition.Color.BLACK), 6, 1)*/
             /*spawn(Queen(addition.Color.BLACK), 2, 5)
             spawn(Checker(addition.Color.WHITE), 1, 4)*/
-            spawn(Queen(addition.Color.WHITE), 3, 4)
+            /*spawn(Queen(addition.Color.WHITE), 3, 4)
             spawn(Checker(addition.Color.BLACK), 6, 1)
             spawn(Checker(addition.Color.BLACK), 1, 6)
+            spawn(Checker(addition.Color.BLACK), 0, 7)*/
 
             /*spawn(Queen(addition.Color.WHITE), 7, 2)
             spawn(Checker(addition.Color.WHITE), 7 - 1, 2 - 1)*/
-
 
         }
 
     }
 
+    private fun moveQueue() {
+        val tempColor = controller.turn
+
+        turn.apply {
+            text = "$tempColor`s turn"
+        }
+
+        if (desk.defeated(tempColor)) {
+            turn.apply {
+                text = "$tempColor lost :c You can restart game in menu."
+            }
+        }
+    }
+
+    private fun restartGame() {
+        controller.clear()
+        spawner()
+        moveQueue()
+    }
+
     /**
      * Both below needed to be fixed
      */
-    private fun hintsEnabled(row: Int, column: Int) {
+
+    private fun allowHints(row: Int, column: Int, permission: Boolean) {
+       val color =  if (permission) Color.web("a9f083") else Color.web("7d3b0a")
+        for ((x, y) in desk.getPossibleMoves(row, column)) {
+            desk.setCellColor(x, y, color)
+        }
+
+    }
+
+    /*private fun hintsEnabled(row: Int, column: Int) {
         val defaultColor = Color.web("a9f083")
             for ((x, y) in desk.getPossibleMoves(row, column)) {
                 desk.setCellColor(x, y, defaultColor)
@@ -163,7 +218,7 @@ class MainView : View("checkers") {
         for ((x, y) in desk.getPossibleMoves(row, column)) {
             desk.setCellColor(x, y, defaultColor)
         }
-    }
+    }*/
 }
 
 

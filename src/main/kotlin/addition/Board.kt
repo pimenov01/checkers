@@ -11,13 +11,13 @@ open class Board {
         if (value is Checker) value.setBoard(this)
     }
 
-    fun clear() {
+    /*open fun clear() {
         for (i in 0 until 8) {
             for (j in 0 until 8) {
                 info[i][j] = null
             }
         }
-    }
+    }*/
 
 
     fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {

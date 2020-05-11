@@ -32,7 +32,7 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
 
     fun dispawn(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int, enemyCords: List<Pair<Int, Int>>) {
 
-        println("before")
+        //println("before")
 
         var tempRow = fromRow
         var tempColumn = fromColumn
@@ -44,8 +44,8 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
             //fromRow < toRow && fromColumn > toColumn -> -1 to 1
             else -> 1 to -1
         }
-        println("vector $vector")
-        println("enemyCords at dispawn1 $enemyCords")
+        /*println("vector $vector")
+        println("enemyCords at dispawn1 $enemyCords")*/
 
         while (tempRow != toRow && tempColumn != toColumn) {
             /*if (tempRow == toRow) vector = 0 to vector.second
@@ -82,9 +82,32 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
 
     }
 
+    fun defeated(color: addition.Color): Boolean {
+        for (i in 0 until 8) {
+            for (j in 0 until 8) {
+                if (this[i, j] is Checker && this[i, j]!!.color == color) {
+                    if (getPossibleMoves(i, j).isNotEmpty()) {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+
     fun setCellColor(row: Int, column: Int, color: Color) {
         if (row in 0 until 8 && column in 0 until 8) cells[row][column].fill = color
     }
+
+    fun clear() {
+        for (i in 0 until 8) {
+            for (j in 0 until 8) {
+                dispawn2(i, j)
+            }
+        }
+    }
+
 
 
     //override fun hashCode(): Int = info

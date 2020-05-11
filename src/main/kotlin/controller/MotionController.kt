@@ -8,7 +8,7 @@ import main.app.DeskGUI
 
 class MotionController {
     private lateinit var desk: DeskGUI
-    private var turn = Color.WHITE
+    var turn = Color.WHITE
     private val checker: Checker = Checker(turn)
 
     fun nowTurn () = turn
@@ -81,13 +81,12 @@ class MotionController {
                         desk.dispawn(fromRow, fromColumn, toRow, toColumn, enemyAt(fromRow, fromColumn))
                         desk.move(fromRow, fromColumn, toRow, toColumn)
                         //desk.dispawn((fromRow + toRow) / 2, (fromColumn + toColumn) / 2)
-                        println("fromR $fromRow")
+                        /*println("fromR $fromRow")
                         println("fromC $fromColumn")
                         println("toR $toRow")
-                        println("toC $toColumn")
+                        println("toC $toColumn")*/
                         //desk.dispawn1(fromRow, fromColumn, toRow, toColumn, enemyAt(fromRow, fromColumn))
                         //desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.third?.let { desk.dispawn1(fromRow, fromColumn, toRow, toColumn, it) }
-                        println("Posle")
                         if (!desk[toRow, toColumn]?.canEat(toRow, toColumn)?.first!!) {
                             turn = turn.enemyColor()
                         }
@@ -151,10 +150,6 @@ class MotionController {
     }*/
 
     private fun enemyAt(row: Int, column: Int): List<Pair<Int, Int>> {
-        println("1")
-        //println("after 1 ${desk[row, column]!!.canEat(row, column).third}")
-        println("after 1 ${desk[row, column]?.canEat(row, column)?.third}")
-        println("2")
         return desk[row, column]?.canEat(row, column)?.third!!
     }
 
@@ -199,7 +194,7 @@ class MotionController {
 
     }*/
 
-    private fun eatAndMove(): List<Pair<Int, Int>> = if (itCanEat().isEmpty()) canMove() else itCanEat()
+    fun eatAndMove(): List<Pair<Int, Int>> = if (itCanEat().isEmpty()) canMove() else itCanEat()
 
 
 
@@ -209,6 +204,7 @@ class MotionController {
     fun clear() {
         desk.clear()
         turn = Color.WHITE
+        
     }
 
     override fun hashCode(): Int = desk.hashCode() * 31 + turn.hashCode()
