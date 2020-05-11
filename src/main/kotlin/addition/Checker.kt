@@ -41,6 +41,7 @@ open class Checker(val color: Color) {
         //while (isCheck()) return canEat(x, y).second //Допилить невозможность передачи хода когда есть возможность брать
         if (canEat(x, y).first) return canEat(x, y).second
         val list = if (this.color == Color.WHITE) listOf(-1 to 1, -1 to -1) else listOf(1 to -1, 1 to 1)
+        //val list = if (this.color == Color.WHITE) listOf(-1 to 1) else listOf(1 to -1)
         val result = mutableListOf<Pair<Int, Int>>()
 
         val board = this.getBoard()!!
@@ -64,6 +65,7 @@ open class Checker(val color: Color) {
         //println("enemy $enemy")
         //val list = if (this.color == Color.WHITE) listOf(-1 to 1, -1 to -1) else listOf(1 to -1, 1 to 1)
         val list = listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)
+        //val list = listOf(-1 to 1)
 
         for ((newX, newY) in list) {
             /*println("${x + 2 * newX}")

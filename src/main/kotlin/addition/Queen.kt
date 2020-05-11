@@ -29,7 +29,7 @@ class Queen (color: Color): Checker(color) {
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
         val list = listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)
-        println("im handling ${board[x, y]}")
+        //println("im handling ${board[x, y]}")
         for ((directionX, directionY) in list) {
             var newX = x + directionX
             var newY = y + directionY
@@ -51,7 +51,7 @@ class Queen (color: Color): Checker(color) {
             }
             enemyCounter = 0
         }
-        println("Queen canEat() enemyCords $enemyCords")
+        //println("Queen canEat() enemyCords $enemyCords")
         return if (result.size != 0) Triple(true, result, enemyCords) else Triple(false, result, enemyCords)
             //true to result else false to result
 

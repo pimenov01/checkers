@@ -78,8 +78,9 @@ class MotionController {
                     }
                 } else {
                     if (toRow to toColumn in desk[fromRow, fromColumn]?.canEat(fromRow, fromColumn)?.second!!) {
+                        desk.dispawn(fromRow, fromColumn, toRow, toColumn, enemyAt(fromRow, fromColumn))
                         desk.move(fromRow, fromColumn, toRow, toColumn)
-                        desk.dispawn((fromRow + toRow) / 2, (fromColumn + toColumn) / 2)
+                        //desk.dispawn((fromRow + toRow) / 2, (fromColumn + toColumn) / 2)
                         println("fromR $fromRow")
                         println("fromC $fromColumn")
                         println("toR $toRow")

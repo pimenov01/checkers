@@ -25,12 +25,12 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
         setImage(row, column, Image("file:src/main/resources/mine/${checker}.png"))
     }
 
-    fun dispawn(row: Int, column: Int) {
+    fun dispawn2(row: Int, column: Int) {
         this[row, column] = null
         setImage(row, column, null)
     }
 
-    fun dispawn1(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int, enemyCords: List<Pair<Int, Int>>) {
+    fun dispawn(fromRow: Int, fromColumn: Int, toRow: Int, toColumn: Int, enemyCords: List<Pair<Int, Int>>) {
 
         println("before")
 
@@ -39,10 +39,10 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
 
         val vector = when {
             fromRow > toRow && fromColumn > toColumn -> -1 to -1
-            fromRow > toRow && fromColumn < toColumn -> 1 to -1
+            fromRow > toRow && fromColumn < toColumn -> -1 to 1
             fromRow < toRow && fromColumn < toColumn -> 1 to 1
             //fromRow < toRow && fromColumn > toColumn -> -1 to 1
-            else -> -1 to 1
+            else -> 1 to -1
         }
         println("vector $vector")
         println("enemyCords at dispawn1 $enemyCords")
@@ -71,11 +71,11 @@ class DeskGUI(private val cells: List<List<Rectangle>>,
         setImage(fromRow, fromColumn, null)
 
         if (this[toRow, toColumn]!!.color == addition.Color.WHITE && toRow == 0) {
-            dispawn(toRow, toColumn)
+            dispawn2(toRow, toColumn)
             spawn(Queen(addition.Color.WHITE), toRow, toColumn)
         } else {
            if (this[toRow, toColumn]!!.color == addition.Color.BLACK && toRow == 7) {
-               dispawn(toRow, toColumn)
+               dispawn2(toRow, toColumn)
                spawn(Queen(addition.Color.BLACK), toRow, toColumn)
            }
         }
