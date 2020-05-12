@@ -1,12 +1,18 @@
 package addition
 
+/**
+ * Extended Checker class with overridden functions.
+ * Explanations of functions can be found in the Checker class.
+ */
 class Queen (color: Color): Checker(color) {
 
     override fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
         val enemyColor = if (this.color == Color.WHITE) Color.BLACK else Color.WHITE
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
+
         if (canEat(x, y).first) return canEat(x, y).second
+
         for ((directionX, directionY) in listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)) {
             var newX = x + directionX
             var newY = y + directionY
@@ -28,6 +34,7 @@ class Queen (color: Color): Checker(color) {
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
         val list = listOf(-1 to 1, -1 to -1, 1 to 1, 1 to -1)
+
         for ((directionX, directionY) in list) {
             var newX = x + directionX
             var newY = y + directionY
@@ -47,17 +54,13 @@ class Queen (color: Color): Checker(color) {
                             result.add(newX + directionX to newY + directionY)
                     }
                 }
-
                 newX += directionX
                 newY += directionY
             }
             enemyCounter = 0
         }
         return if (result.size != 0) Triple(true, result, enemyCords) else Triple(false, result, enemyCords)
-
-
     }
 
     override fun toString(): String = if (this.color == Color.WHITE) "white_queen" else "black_queen"
-
 }

@@ -1,19 +1,30 @@
 package addition
 
-
+/**
+ * The main class of the checkers.
+ */
 open class Checker(val color: Color) {
     private var board: Board? = null
+
     fun getBoard() = board
     fun isOpposite(other: Checker?) = (other?.color ?: false) != this.color
     fun setBoard(board: Board) {
         this.board = board
     }
 
+    /**
+     * Returns the possible moves of checkers, with the possibility of taking.
+     * The 'list' variable is the direction of movement of the checkers,
+     * left-up or right-up for white etc.
+     * If there is no possibility of capture, it returns all possible moves. (line 22)
+     */
     open fun getPossibleMoves(x: Int, y: Int): List<Pair<Int, Int>> {
         if (canEat(x, y).first) return canEat(x, y).second
+
         val list = if (this.color == Color.WHITE) listOf(-1 to 1, -1 to -1) else listOf(1 to -1, 1 to 1)
         val result = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
+
         for ((directionX, directionY) in list) {
             val newX = x + directionX
             val newY = y + directionY
@@ -22,10 +33,15 @@ open class Checker(val color: Color) {
                 result.add(Pair(newX, newY))
             }
         }
-
         return result
     }
 
+    /**
+     * A function that answers whether a checker at these coordinates can eat another checker. Returns three arguments.
+     * True if you can take it, false if you can't.
+     * Coordinates where you can stand after taking.
+     * The coordinates of the enemies, which we can take.
+     */
     open fun canEat(x: Int, y: Int): Triple<Boolean, List<Pair<Int, Int>>, List<Pair<Int, Int>>> {
         val result = mutableListOf<Pair<Int, Int>>()
         val enemyCords = mutableListOf<Pair<Int, Int>>()
@@ -47,8 +63,9 @@ open class Checker(val color: Color) {
 
     }
 
-
-
+    /**
+     * Override toString() to spawn the checkers that we need.
+     */
     override fun toString(): String = if (this.color == Color.WHITE) "white_checker" else "black_checker"
 
 

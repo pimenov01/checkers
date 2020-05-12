@@ -3,9 +3,11 @@ package addition
 import junit.framework.TestCase
 import org.junit.Test
 
+/**
+ * Some tests in order to check the functionality of the program.
+ */
 class CheckerTest : TestCase() {
     var desk = Board()
-
 
     @Test
     fun testGetPossibleMoves() {
