@@ -26,7 +26,7 @@ open class Checker(val color: Color) {
         return result
     }
 
-    open fun canEat(x: Int, y: Int): Triple<Boolean, List<Pair<Int, Int>>, List<Pair<Int, Int>>> { // List<Pair<Int, Int>> // Pair<Boolean, List<Pair<Int, Int>>> //Triple<Boolean, List<Pair<Int, Int>>, Boolean>
+    open fun canEat(x: Int, y: Int): Triple<Boolean, List<Pair<Int, Int>>, List<Pair<Int, Int>>> {
         val result = mutableListOf<Pair<Int, Int>>()
         val enemyCords = mutableListOf<Pair<Int, Int>>()
         val board = this.getBoard()!!
